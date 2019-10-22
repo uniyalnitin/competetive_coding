@@ -52,3 +52,50 @@ class Solution(object):
             if self.find(i)==i:
                 ans += 1
         return ans
+
+ '''
+ Solution 2- using DFS
+ editorial - https://leetcode.com/problems/regions-cut-by-slashes/discuss/367154/Python-readable-DFS-on-upscaled-grid
+ '''
+
+ class Solution(object):
+    
+    def regionsBySlashes(self, grid):
+        """
+        :type grid: List[str]
+        :rtype: int
+        """
+        N = len(grid)*3
+
+        big_grid = [[True]*N for i in range(N)]
+
+        for i in range(len(grid)):
+            for j in range(len(grid)):
+                if grid[i][j] == "/":
+                    big_grid[3*i][3*j+2] = False
+                    big_grid[3*i+1][3*j+1] = False
+                    big_grid[3*i+2][3*j] = False
+                elif grid[i][j] == "\\":
+                    big_grid[3*i][3*j] = False
+                    big_grid[3*i+1][3*j+1] = False
+                    big_grid[3*i+2][3*j+2] = False
+        seen = set()
+        regions_count = 0
+        n = N
+        for i, row in enumerate(big_grid):
+			for j, is_char in enumerate(row):
+				if is_char and (i, j) not in seen:
+					regions_count += 1
+					stack = [(i, j)]
+					while stack:
+						a, b = stack.pop()
+						seen.add((a, b))
+						if a > 0 and big_grid[a - 1][b] and (a - 1, b) not in seen:
+							stack.append((a - 1, b))
+						if a < n - 1 and big_grid[a + 1][b] and (a + 1, b) not in seen:
+							stack.append((a + 1, b))
+						if b > 0 and big_grid[a][b - 1] and (a, b - 1) not in seen:
+							stack.append((a, b - 1))
+						if b < n - 1 and big_grid[a][b + 1] and (a, b + 1) not in seen:
+							stack.append((a, b + 1))
+        return regions_count
