@@ -1,3 +1,5 @@
+import math
+
 def factorize(n): 
 	pf = []
 	count =  0
