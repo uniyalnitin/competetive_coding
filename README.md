@@ -1,1 +1,1 @@
-# This Directory contains my python solutions of various competetive coding problems from different platforms. 
+# This Directory contains my python solution of various competetive coding problems which I really find Interesting from different platforms. 
