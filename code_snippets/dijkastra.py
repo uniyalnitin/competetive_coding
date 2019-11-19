@@ -35,3 +35,23 @@ example_graph = {
     'Z': {'W': 5, 'Y': 1},
 }
 print(dijkastra(example_graph, 'X'))
+
+# This is similar to BFS, but with priority que
+def dijkastra_alter(graph, src):
+	distances = {vertex: float('inf') for vertex in graph}
+	pq = []
+
+	distances[src] = 0
+
+	heapq.heappush(pq, [distances[src], src])	# distance, node
+
+	while pq:
+		cur_dist, cur_vert = heapq.heappop(pq)
+		for neigh, neigh_dist in graph[cur_vert].items():
+			new_dist = cur_dist + neigh_dist
+			if distances[neigh] > new_dist:
+				distances[neigh] = new_dist
+				heapq.heappush(pq, [new_dist, neigh])
+	return distances
+
+print(dijkastra_alter(example_graph, 'X'))
